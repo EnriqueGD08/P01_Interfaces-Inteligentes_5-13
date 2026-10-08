@@ -63,6 +63,31 @@ El cubo se traslada en cada iteración según el vector `moveDirection` y la
 velocidad `speed`, ambos configurables desde el inspector. El desplazamiento se
 escala con `Time.deltaTime` para que sea proporcional al tiempo transcurrido.
 
+Resultados de las pruebas:
+
+1. **Duplicar las coordenadas de la dirección del movimiento.** Al multiplicar
+	por dos las coordenadas de `moveDirection`, el cubo avanza el doble en cada
+	eje durante el mismo intervalo de tiempo. Por tanto, el desplazamiento
+	total aumenta y la trayectoria mantiene la misma dirección.
+2. **Duplicar la velocidad manteniendo la dirección del movimiento.** Al
+	duplicar `speed`, el cubo recorre el doble de distancia por segundo, pero no
+	cambia la dirección de la trayectoria, porque `moveDirection` permanece
+	igual.
+3. **Usar una velocidad menor que 1.** El movimiento se hace más lento: en cada
+	actualización el cubo recorre una distancia menor que la correspondiente a
+	una unidad por segundo, aunque sigue avanzando en la dirección indicada.
+4. **Colocar el cubo en una posición con `y > 0`.** El cubo comienza a una
+	altura superior al origen y se desplaza desde allí. Si la componente `y` de
+	`moveDirection` es cero, conserva esa altura y el movimiento se realiza de
+	forma horizontal.
+5. **Intercambiar el sistema de referencia local y el mundial.** La llamada
+	actual a `Translate` utiliza el sistema local del cubo, por lo que la
+	dirección depende de su orientación. Si se añade `Space.World`, el
+	desplazamiento se interpreta respecto a los ejes fijos de la escena:
+	`transform.Translate(moveDirection * speed * Time.deltaTime, Space.World)`.
+	Así, al girar el cubo, el movimiento mundial mantiene la misma dirección,
+	mientras que el movimiento local gira con el propio cubo.
+
 ![Prueba del ejercicio 8](multimedia/Ejercicio8.gif)
 
 [Volver al índice](#índice)
